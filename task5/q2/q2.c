@@ -26,22 +26,25 @@ Data Stack size         : 256
 // Declare your global variables here
 
 
-int move[4]={9,10,6,5};
+int clockwise[4]={9,10,6,5};
+// int counterclockwise[4]={5,6,9,10};
+// int times=0;
 int i = 0;
-int start = 1;
+int start = 0;
 
 // Timer 0 overflow interrupt service routine
 interrupt [TIM0_OVF] void timer0_ovf_isr(void)
 {
 // Place your code here
 
-if ( start == 0 ){
+if ( start != 0  ){
 
-  PORTA=move[i];
+
+PORTA=clockwise[i];
 i++;
 delay_ms(5);
 PORTA=0;
-
+  
 if (i==4){
 i=0;
 }
@@ -52,8 +55,8 @@ i=0;
 
 
 
-}
 
+}
 
 
 
@@ -177,15 +180,14 @@ TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
 while (1)
       { 
       
-    if(PINC.0 == 1) {
-            start  = 1;
-        }else {
-            start = 0;
-    }
 
+       if(PINC.2 == 0 ){
+            start++; 
+            
+             }
       
    
-      // Place your code here
+   
 
       }
 }
